@@ -1,0 +1,52 @@
+<?php
+class Network {
+    const POST = 'POST';
+    const GET = 'GET';
+    
+    public $protocol = 'https';
+    public $host = 'api.supermetrics.com';    
+    public $path = '/';    
+    public $method = self::POST;
+    public $params = [];
+    
+    public function __construct(string $method, string $path, array $params) {
+        $this->method = $method;
+        $this->path = $path;
+        $this->params = $params;
+    }
+    
+    public function fetch() {
+        if($this->method == self::GET) {
+           return $this->get();
+        }
+        else {
+           return $this->post();      
+        }
+    }
+    
+    private function post() {
+        $context = stream_context_create([
+            'http' => [
+                'method' => $this->method,
+                'header' => 'Content-type: application/x-www-form-urlencoded',                                
+                'content' => http_build_query($this->params),
+                'ignore_errors' => true
+            ]            
+        ]);          
+        $json = file_get_contents($this->protocol.'://'.$this->host.$this->path, false, $context);
+        $data = json_decode($json);
+        return $data;          
+    }
+    
+    private function get() {
+        $context = stream_context_create([
+            'http' => [
+                'method' => $this->method,                
+                'ignore_errors' => true
+            ]            
+        ]);          
+        $json = file_get_contents($this->protocol.'://'.$this->host.$this->path.'?'.http_build_query($this->params), false, $context); 
+        $data = json_decode($json);
+        return $data;        
+    }
+}
