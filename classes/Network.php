@@ -15,13 +15,13 @@ class Network {
         $this->params = $params;
     }
     
-    public function fetch() {
+    public function fetch() {        
         if($this->method == self::GET) {
            return $this->get();
         }
         else {
            return $this->post();      
-        }
+        }        
     }
     
     private function post() {
@@ -30,10 +30,13 @@ class Network {
                 'method' => $this->method,
                 'header' => 'Content-type: application/x-www-form-urlencoded',                                
                 'content' => http_build_query($this->params),
-                'ignore_errors' => true
+                'ignore_errors' => false
             ]            
         ]);          
-        $json = file_get_contents($this->protocol.'://'.$this->host.$this->path, false, $context);
+        $json = @file_get_contents($this->protocol.'://'.$this->host.$this->path, false, $context);       
+        if($json === false) {
+            throw new NetworkException("{$this->method} {$this->path}");
+        }        
         $data = json_decode($json);
         return $data;          
     }
@@ -42,10 +45,13 @@ class Network {
         $context = stream_context_create([
             'http' => [
                 'method' => $this->method,                
-                'ignore_errors' => true
+                'ignore_errors' => false
             ]            
         ]);          
-        $json = file_get_contents($this->protocol.'://'.$this->host.$this->path.'?'.http_build_query($this->params), false, $context); 
+        $json = @file_get_contents($this->protocol.'://'.$this->host.$this->path.'?'.http_build_query($this->params), false, $context); 
+        if($json === false) {
+            throw new NetworkException("Network error: {$this->method} {$this->path}");
+        }        
         $data = json_decode($json);
         return $data;        
     }

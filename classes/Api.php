@@ -7,6 +7,10 @@ class Api {
             'name'      => $name    
         ]);
         $result = $call->fetch();        
+        if(!isset($result->data->sl_token)) {
+            throw new ApiException('No token in API responce');
+        }
+        
         return $result->data->sl_token;        
     }
     
@@ -39,6 +43,10 @@ class Api {
             'sl_token' => $token,
             'page' => 1
         ]);   
-        return $call->fetch()->data->posts;        
+        $responce = $call->fetch();
+        if(!isset($responce->data->posts) || !is_array($responce->data->posts)) {
+            throw new ApiException('No posts list in API responce');
+        }        
+        return $responce->data->posts;        
     }
 }
