@@ -26,7 +26,7 @@ Email: andrey.tushev@gmail.com
 
 `PostsSourceInterface, PostsSourceApi, PostsSourceTest` - Posts sources (Interfaces and its implementations)
 
-`Stat` - Staistics calculater.
+`Stat` - Staistics calculator
 
 
 ## Output example
