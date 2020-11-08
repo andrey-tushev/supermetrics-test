@@ -12,7 +12,7 @@ class Stat {
     /** 
      * Average character length of posts per month 
      */
-    public function getAvgPerMonth() {
+    public function getAvgPerMonth(): array {
         $months = [];        
         foreach($this->posts->items as $post) {
             $months[$post->monthNum()][] = mb_strlen($post->message);
@@ -28,7 +28,7 @@ class Stat {
     /** 
      * Longest post by character length per month 
      */
-    public function getLongestPerMonth() {
+    public function getLongestPerMonth(): array {
         $months = [];        
         foreach($this->posts->items as $post) {
             $months[$post->monthNum()][] = mb_strlen($post->message);
@@ -44,7 +44,7 @@ class Stat {
     /** 
      * Total posts split by week number 
      */
-    public function getPostsByWeeks() {
+    public function getPostsByWeeks(): array {
         $stat = [];        
         foreach($this->posts->items as $post) {            
             $stat[] = $post->weekNum();
@@ -56,7 +56,7 @@ class Stat {
      * [Average!] number of posts per user per month 
      * Why average!? Just a number. 
      */
-    public function getAvgPerUserPerMonth() {
+    public function getAvgPerUserPerMonth(): array {
         $stat = [];        
         foreach($this->posts->items as $post) {
             if(isset($stat[ $post->fromId ][ $post->monthNum() ])) {
@@ -72,7 +72,7 @@ class Stat {
     /**
      * All possible statistics     
      */
-    public function getAll() {
+    public function getAll(): array {
         return [    
             'avg_per_user_per_month' => $this->getAvgPerUserPerMonth(),
             'avg_per_month'          => $this->getAvgPerMonth(),

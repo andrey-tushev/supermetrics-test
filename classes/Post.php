@@ -10,11 +10,11 @@ class Post {
     public $type;
     public $createdTime;   
     
-    public function monthNum() {
+    public function monthNum(): int {
         return (int)$this->createdTime->format('n');
     }
 
-    public function weekNum() {
+    public function weekNum(): int {
         return (int)$this->createdTime->format('W');
     }
 }

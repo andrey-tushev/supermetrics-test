@@ -18,7 +18,7 @@ class Network {
         $this->params = $params;
     }
     
-    public function fetch() {        
+    public function fetch(): object {        
         if($this->method == self::GET) {
            return $this->get();
         }
@@ -27,7 +27,7 @@ class Network {
         }        
     }
     
-    private function post() {
+    private function post(): object {
         $context = stream_context_create([
             'http' => [
                 'method' => $this->method,
@@ -44,7 +44,7 @@ class Network {
         return $data;          
     }
     
-    private function get() {
+    private function get(): object {
         $context = stream_context_create([
             'http' => [
                 'method' => $this->method,                
