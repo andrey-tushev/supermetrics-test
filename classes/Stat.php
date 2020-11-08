@@ -2,8 +2,8 @@
 class Stat {
     private $posts;
     
-    public function __construct(array $posts) {
-        $this->posts = $posts;
+    public function __construct(PostsSourceInterface $source) {
+        $this->posts = $source->getPosts();
     }
     
     /** 
@@ -11,7 +11,7 @@ class Stat {
      */
     public function getAvgPerMonth() {
         $months = [];        
-        foreach($this->posts as $post) {
+        foreach($this->posts->items as $post) {
             $months[$post->monthNum()][] = mb_strlen($post->message);
         }        
         
@@ -27,7 +27,7 @@ class Stat {
      */
     public function getLongestPerMonth() {
         $months = [];        
-        foreach($this->posts as $post) {
+        foreach($this->posts->items as $post) {
             $months[$post->monthNum()][] = mb_strlen($post->message);
         }        
         
@@ -43,7 +43,7 @@ class Stat {
      */
     public function getPostsByWeeks() {
         $stat = [];        
-        foreach($this->posts as $post) {            
+        foreach($this->posts->items as $post) {            
             $stat[] = $post->weekNum();
         }                
         return array_count_values($stat);
@@ -55,7 +55,7 @@ class Stat {
      */
     public function getAvgPerUserPerMonth() {
         $stat = [];        
-        foreach($this->posts as $post) {
+        foreach($this->posts->items as $post) {
             if(isset($stat[ $post->fromId ][ $post->monthNum() ])) {
                 $stat[ $post->fromId ][ $post->monthNum() ] ++;
             }

@@ -1,37 +1,40 @@
 <?php
-class Api {    
-    public function getToken() {
+class Api {     
+    public function getToken(string $clientId, string $email, string $name): string {
         $call = new Network('POST', '/assignment/register', [
-            'client_id' => Config::$clinetId,
-            'email'     => Config::$email,
-            'name'      => Config::$name    
+            'client_id' => $clientId,
+            'email'     => $email,
+            'name'      => $name    
         ]);
         $result = $call->fetch();        
         return $result->data->sl_token;        
     }
     
-    public function getPosts(string $token) {
-        $recs = [];
-        for($p=1; $p<=10; $p++) {
-            $recs = array_merge($recs, $this->getPostsPage($token, $p));
+    public function getPosts(string $token): PostsCollection {
+        $collection = new PostsCollection;
+
+        for($p=1; $p<=Config::$pagesQty; $p++) {
+            $records = $this->getPostsPage($token, $p);
+            foreach($records as $record) {
+                $collection->add(self::recordToPost($record));
+            }            
         }
-        
-        $mapper = function($rec) {
-            $post = new Post;
-            $post->id          = $rec->id;
-            $post->fromName    = $rec->from_name;
-            $post->fromId      = $rec->from_id;
-            $post->message     = $rec->message;
-            $post->type        = $rec->type;
-            $post->createdTime = new DateTime($rec->created_time);
-            return $post;
-        };
-        $posts = array_map($mapper, $recs);
-        
-        return $posts;
+                
+        return $collection;
     }
     
-    private function getPostsPage(string $token, int $page) {
+    private static function recordToPost(object $record): Post {
+        $post = new Post;
+        $post->id          = $record->id;
+        $post->fromName    = $record->from_name;
+        $post->fromId      = $record->from_id;
+        $post->message     = $record->message;
+        $post->type        = $record->type;
+        $post->createdTime = new DateTime($record->created_time);
+        return $post;        
+    }
+    
+    private function getPostsPage(string $token, int $page=1): array {
         $call = new Network('GET', '/assignment/posts', [
             'sl_token' => $token,
             'page' => 1

@@ -1,13 +1,11 @@
 #!/usr/bin/php
 <?php
+declare(strict_types=1);
 
-spl_autoload_register(function ($class) {
-    include 'classes/' . $class . '.php';
-});
+require 'autoload.php';
 
-$api = new Api;
-$token = $api->getToken();
-$posts = $api->getPosts($token);
-$stat = new Stat($posts);
-
+$source = new PostsSourceApi();
+// Another posts source may be used for tests and development
+// $source = new PostsSourceTest();
+$stat = new Stat($source);
 print json_encode($stat->getAll(), JSON_PRETTY_PRINT);
