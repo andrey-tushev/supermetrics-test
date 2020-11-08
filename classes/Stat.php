@@ -1,4 +1,7 @@
 <?php
+/**
+ * Statistics calculator
+ */
 class Stat {
     private $posts;
     

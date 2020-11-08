@@ -1,4 +1,7 @@
 <?php
+/**
+ * Real API posts source
+ */
 class PostsSourceApi implements PostsSourceInterface {        
     public function getPosts(): PostsCollection {
         $api = new Api;

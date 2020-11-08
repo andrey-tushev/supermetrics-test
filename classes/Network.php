@@ -1,4 +1,7 @@
 <?php
+/**
+ * Universal HTTP network client
+ */
 class Network {
     const POST = 'POST';
     const GET = 'GET';

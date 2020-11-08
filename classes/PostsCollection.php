@@ -1,4 +1,7 @@
 <?php
+/**
+ * Collection of posts
+ */
 class PostsCollection {
     public $items = [];
     

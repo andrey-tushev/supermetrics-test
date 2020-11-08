@@ -1,4 +1,7 @@
 <?php
+/**
+ * Test implementation of posts source
+ */
 class PostsSourceTest implements PostsSourceInterface {        
     public function getPosts(): PostsCollection {
         $collection = new PostsCollection();

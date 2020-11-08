@@ -1,4 +1,7 @@
 <?php
+/**
+ * API calls to Supermetrics
+ */
 class Api {     
     public function getToken(string $clientId, string $email, string $name): string {
         $call = new Network('POST', '/assignment/register', [

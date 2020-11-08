@@ -1,4 +1,7 @@
 <?php
+/**
+ * Post model
+ */
 class Post {
     public $id;
     public $fromName;

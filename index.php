@@ -1,5 +1,8 @@
 #!/usr/bin/php
 <?php
+/*
+ * Main entry point
+ */
 declare(strict_types=1);
 
 require 'autoload.php';
