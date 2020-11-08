@@ -4,11 +4,30 @@ Author: Andrey Tushev
 
 Email: andrey.tushev@gmail.com
 
+
 ## Usage
 
 `./index.php` - Console entry point
 
 `phpunit tests` - Run tests (here is no full coverage yet)
+
+
+## Classes
+
+`Config` - Configuration parameters
+
+`ApiException, NetworkException` - Specific project exceptions
+
+`Network` - Simple HTTP client
+
+`Api` - API calls to the server
+
+`Post, PostsCollection` - Data containers for posts
+
+`PostsSourceInterface, PostsSourceApi, PostsSourceTest` - Posts sources (Interfaces and its implementations)
+
+`Stat` - Staistics calculater.
+
 
 ## Output example
 ```json
